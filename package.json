@@ -8,18 +8,12 @@
     "test": "mocha"
   },
   "dependencies": {
-    "botbuilder": "^4.4.0",
+    "botbuilder": "~4.17.0",
     "dialogflow": "0.6.0",
     "express": "^4.16.4"
   },
   "devDependencies": {
     "mocha": "6.1.4"
-  },
-  "engines": {
-    "node": "8.x"
-  },
-  "repository": {
-    "url": "https://github.com/olivomarco/dialogflow-teams-integration/"
   },
   "license": "Apache-2.0"
 }

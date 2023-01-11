@@ -16,13 +16,15 @@
 /**
  * @fileoverview Contacts dialogflow and returns response.
  */
-const dialogflow = require('dialogflow');
+const { SessionsClient } = require('@google-cloud/dialogflow-cx');
 const jsonToProto = require('./json_to_proto')
 module.exports = class DialogflowSessionClient {
 
   constructor(projectId){
-    this.sessionClient = new dialogflow.SessionsClient();
-    this.projectId = projectId;
+    this.projectId=projectId;
+    this.agentId="c946912f-53b4-4098-b7f8-5abb0e17dd9a";
+    this.location="us-central1";
+    this.sessionClient = location === 'global' ? new SessionsClient() : new SessionsClient({ apiEndpoint: `${location}-dialogflow.googleapis.com` });
   }
 
   constructRequest(text, sessionPath, payload) {
@@ -30,9 +32,9 @@ module.exports = class DialogflowSessionClient {
       session: sessionPath,
       queryInput: {
         text: {
-          text: text,
-          languageCode: 'en'
-        }
+          text: text
+        },
+        languageCode: 'en'
       },
       queryParams: {
         payload: jsonToProto.jsonToStructProto(payload)
@@ -45,13 +47,12 @@ module.exports = class DialogflowSessionClient {
       session: sessionPath,
       queryInput: {
         event: {
-          name: eventName,
-          languageCode: 'en'
+          event: eventName
         },
-      },
+        languageCode: 'en'
+      }
     };
   }
-
   //This function calls Dialogflow DetectIntent API to retrieve the response
   //https://cloud.google.com/dialogflow/docs/reference/rest/v2/projects.agent.sessions/detectIntent
   async detectIntentHelper(detectIntentRequest) {
@@ -60,15 +61,23 @@ module.exports = class DialogflowSessionClient {
   }
 
   async detectIntent(text, sessionId, payload) {
-    const sessionPath = this.sessionClient.sessionPath(
-        this.projectId, sessionId);
+    const sessionPath = this.sessionClient.projectLocationAgentSessionPath(
+          this.projectId,
+          location,
+          agentId,
+          sessionId
+      )
     const request = this.constructRequest(text, sessionPath, payload);
     return await this.detectIntentHelper(request);
   }
 
   async detectIntentWithEvent(eventName, sessionId) {
-    const sessionPath = this.sessionClient.sessionPath(
-        this.projectId, sessionId);
+    const sessionPath = this.sessionClient.projectLocationAgentSessionPath(
+      this.projectId,
+      location,
+      agentId,
+      sessionId
+  )
     const request = this.constructRequestWithEvent(
         eventName, sessionPath);
     return await this.detectIntentHelper(request);
