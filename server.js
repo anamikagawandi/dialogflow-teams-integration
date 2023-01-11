@@ -47,23 +47,31 @@ let adapter = new BotFrameworkAdapter({
 app.post('/', (req, res) => {
   // Use the adapter to process the incoming web request into a TurnContext object.
   adapter.processActivity(req, res, async (turnContext) => {
-    console.log("Logging*******************************************",req);
+    console.log("Logging*******************************************",JSON.stringify(turnContext,null,1));
     if (isMessage(turnContext)) {
+      console.log("In is Message*********")
       const utterance = getMessageText(turnContext);
       const senderId = turnContext.activity.from.id;
       const payload = turnContext.activity;
+      console.log("Before detect intent*********", utterance)
       const responses = (await sessionClient.detectIntent(
           utterance, senderId, payload)).fulfillmentMessages;
+
+      console.log("After detect intent", JSON.stringify(responses,null,1))
       const replies = await convertToTeamsMessage(turnContext, responses);
+      console.log("MS replies*********", replies)
       await turnContext.sendActivities(replies);
     } else if(isMemberAdded(turnContext)) {
+      console.log("Is Member Added****************8", JSON.stringify(turnContext,null,1))
       for (let idx in turnContext.activity.membersAdded) {
         if (turnContext.activity.membersAdded[idx].id !==
             turnContext.activity.recipient.id) {
           const result = await sessionClient.detectIntentWithEvent('TEAMS_WELCOME',
               projectId);
+              console.log("After detect intent", JSON.stringify(result,null,1))
           const replies = await convertToTeamsMessage(turnContext,
               result.fulfillmentMessages);
+              console.log("MS replies*******************", JSON.stringify(replies,null,1))
           await turnContext.sendActivity(replies);
         }
       }
