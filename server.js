@@ -70,7 +70,7 @@ app.post('/', (req, res) => {
               projectId);
               console.log("After detect intent", JSON.stringify(result,null,1))
           const replies = await convertToTeamsMessage(turnContext,
-              result.queryResult.responseMessages);
+              result.responseMessages);
               console.log("MS replies*******************", JSON.stringify(replies,null,1))
           await turnContext.sendActivity(replies);
         }
