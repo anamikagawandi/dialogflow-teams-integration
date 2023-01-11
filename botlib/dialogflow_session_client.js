@@ -63,8 +63,8 @@ module.exports = class DialogflowSessionClient {
   async detectIntent(text, sessionId, payload) {
     const sessionPath = this.sessionClient.projectLocationAgentSessionPath(
           this.projectId,
-          location,
-          agentId,
+          this.location,
+          this.agentId,
           sessionId
       )
     const request = this.constructRequest(text, sessionPath, payload);
@@ -74,8 +74,8 @@ module.exports = class DialogflowSessionClient {
   async detectIntentWithEvent(eventName, sessionId) {
     const sessionPath = this.sessionClient.projectLocationAgentSessionPath(
       this.projectId,
-      location,
-      agentId,
+      this.location,
+      this.agentId,
       sessionId
   )
     const request = this.constructRequestWithEvent(
