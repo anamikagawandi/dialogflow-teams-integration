@@ -45,6 +45,7 @@ let adapter = new BotFrameworkAdapter({
 });
 
 app.post('/', (req, res) => {
+ console.log(req);
   // Use the adapter to process the incoming web request into a TurnContext object.
   adapter.processActivity(req, res, async (turnContext) => {
     if (isMessage(turnContext)) {
