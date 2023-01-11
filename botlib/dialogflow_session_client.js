@@ -24,7 +24,7 @@ module.exports = class DialogflowSessionClient {
     this.projectId=projectId;
     this.agentId="c946912f-53b4-4098-b7f8-5abb0e17dd9a";
     this.location="us-central1";
-    this.sessionClient = location === 'global' ? new SessionsClient() : new SessionsClient({ apiEndpoint: `${location}-dialogflow.googleapis.com` });
+    this.sessionClient = this.location === 'global' ? new SessionsClient() : new SessionsClient({ apiEndpoint: `${location}-dialogflow.googleapis.com` });
   }
 
   constructRequest(text, sessionPath, payload) {
