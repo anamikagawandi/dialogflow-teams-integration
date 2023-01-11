@@ -55,7 +55,7 @@ app.post('/', (req, res) => {
       const payload = turnContext.activity;
       console.log("Before detect intent*********", utterance)
       const responses = (await sessionClient.detectIntent(
-          utterance, senderId, payload)).fulfillmentMessages;
+          utterance, senderId, null)).queryResult.responseMessages;
 
       console.log("After detect intent", JSON.stringify(responses,null,1))
       const replies = await convertToTeamsMessage(turnContext, responses);
@@ -70,7 +70,7 @@ app.post('/', (req, res) => {
               projectId);
               console.log("After detect intent", JSON.stringify(result,null,1))
           const replies = await convertToTeamsMessage(turnContext,
-              result.fulfillmentMessages);
+              result.queryResult.responseMessages);
               console.log("MS replies*******************", JSON.stringify(replies,null,1))
           await turnContext.sendActivity(replies);
         }
