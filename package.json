@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "botbuilder": "~4.17.0",
-    "dialogflow": "0.6.0",
+    "@google-cloud/dialogflow-cx": "^2.15.0",
     "express": "^4.16.4"
   },
   "devDependencies": {
