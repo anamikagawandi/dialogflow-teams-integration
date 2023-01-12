@@ -55,7 +55,7 @@ app.post('/', (req, res) => {
       const payload = turnContext.activity;
       console.log("Before detect intent*********", utterance)
       const responses = (await sessionClient.detectIntent(
-          utterance, senderId, null)).queryResult.responseMessages;
+          utterance, senderId, null)).responseMessages;
 
       console.log("After detect intent", JSON.stringify(responses,null,1))
       const replies = await convertToTeamsMessage(turnContext, responses);
