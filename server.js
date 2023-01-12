@@ -97,10 +97,11 @@ function isMemberAdded(turnContext){
 
 async function convertToTeamsMessage(turnContext, responses){
   const replies = [];
+  // console.log();
   if (Array.isArray(responses)) {
-    const filteredResponses = await filterResponses.filterResponses(responses, 'TEAMS');
-    console.log("filtered response##########################################", JSON.stringify(filterResponses,null,1))
-    filteredResponses.forEach((response)=> {
+    // const filteredResponses = await filterResponses.filterResponses(responses, 'TEAMS');
+    // console.log("filtered response##########################################", JSON.stringify(filterResponses,null,1))
+    responses.forEach((response)=> {
       let reply = {type: ActivityTypes.Message};
       switch (response.message) {
         case 'text': {
