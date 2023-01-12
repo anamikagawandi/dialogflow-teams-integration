@@ -99,6 +99,7 @@ async function convertToTeamsMessage(turnContext, responses){
   const replies = [];
   if (Array.isArray(responses)) {
     const filteredResponses = await filterResponses.filterResponses(responses, 'TEAMS');
+    console.log("filtered response##########################################", JSON.stringify(filterResponses,null,1))
     filteredResponses.forEach((response)=> {
       let reply = {type: ActivityTypes.Message};
       switch (response.message) {
